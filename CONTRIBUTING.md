@@ -150,6 +150,51 @@ Practices for Production Environments](https://peter.bourgon.org/go-in-productio
 
 **Please note**: All `make` commands should be run in a terminal from within the Meshery's main folder.
 
+### Contributing to Meshery Policies
+
+Meshery integrates Open Policy Agent (OPA) and Rego to manage relationships and enforce policies between different components. To contribute to policy management using Rego, follow these steps:
+
+1. **Understanding Meshery Policies:**
+   - Meshery uses OPA (Open Policy Agent) and the Rego language for policy evaluation. Policies are primarily stored in the `policies/wasm` folder of the Meshery codebase.
+
+2. **Locating and Modifying Existing Policies:**
+   - Navigate to the `policies/wasm` folder in the Meshery codebase.
+   - Identify the policy file you want to modify (e.g., `namespace_discovery_relationship_policy.rego`).
+   - Open the file and make your changes, ensuring you follow Rego syntax and Meshery conventions.
+
+3. **Creating New Policies:**
+   - In the `policies/wasm` folder, create a new `.rego` file for your policy.
+   - Start with the package declaration and any necessary imports.
+   - Implement your policy rules using the Rego language.
+   - Ensure your policy aligns with Meshery's existing policy structure and naming conventions.
+
+4. **Testing Rego Policies for Relationships:**
+   - **Code:** Make changes to Rego files in their respective Meshery model folder.
+   - **Build:** Build the Meshery Server, which loads all available policies.
+     ```bash
+     make server
+     ```
+   - **Test:**
+     - Verify that the policy loaded successfully by opening the Meshery UI and visiting `Settings` → `Registry`.
+     - Alternatively, verify by reviewing registration logs found under `~/.meshery/logs/*.log`.
+
+   - **Verify Visually (Optional):** Use the MeshMap extension:
+     - Drag and drop the implicated components onto the canvas.
+     - Click on each component and visit the "Relationships" tab menu. Verify the presence of "Available Relationship".
+     - Attempt to visually form the relationship by clicking and dragging either the component or edges between components.
+     - If a component is to be mutated by relationship formation, attest specific changes.
+
+5. **Best Practices:**
+   - Keep policies modular and focused on specific concerns.
+   - Use clear and descriptive names for rules and variables.
+   - Comment your code to explain complex logic or intentions.
+   - Ensure policies are performant and do not introduce unnecessary complexity.
+
+For more details, please refer to the [Contributing Policies Guide](docs/CONTRIBUTING-POLICIES.md).
+
+
+
+
 ### Prerequisites for building Meshery in your development environment:
 
 1. Go version 1.21.1 must be installed if you want to build and/or make changes to the existing code. The binary `go1.21.1` should be available in your path. If you don't want to disturb your existing version of Go, then follow these [instructions](https://go.dev/doc/manage-install#:~:text=and%20run%20them.-,Installing%20multiple%20Go%20versions,-You%20can%20install) to keep multiple versions of Go in your system.
