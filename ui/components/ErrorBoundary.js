@@ -1,41 +1,28 @@
 import { Button } from '@mui/material';
 import React from 'react';
+import { ErrorBoundary as SistentErrorBoundary } from '@sistent/react';
 
 /**
  * ErrorBoundary is a React component that catches JavaScript errors in its child components and renders a fallback UI when an error occurs.
  * It should be used as a wrapper around components that might throw errors.
  * @deprecated use error boundary from sistent instead
  */
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-
-  /** Update state so the next render will show the fallback UI. */
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error: error };
-  }
-
-  resetErrorBoundary = () => {
-    this.setState({ hasError: false, error: null });
-  };
-
-  /** You can render any custom fallback UI */
-  render() {
-    if (this.state.hasError) {
-      return (
+const ErrorBoundary = ({ children }) => {
+  return (
+    <SistentErrorBoundary
+      fallback={({ error, resetErrorBoundary }) => (
         <div className="alert alert-danger">
           <p>Couldn&apos;t open form. Encountered the following error:</p>
-          <pre>{this.state.error.message}</pre>
-          <Button color="primary" variant="contained" onClick={this.resetErrorBoundary}>
+          <pre>{error.message}</pre>
+          <Button color="primary" variant="contained" onClick={resetErrorBoundary}>
             Refresh Form
           </Button>
         </div>
-      );
-    }
-    return this.props.children;
-  }
-}
+      )}
+    >
+      {children}
+    </SistentErrorBoundary>
+  );
+};
 
 export default ErrorBoundary;

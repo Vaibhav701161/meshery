@@ -1,11 +1,12 @@
 import React from 'react';
 import Badge from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
+import { useSistent } from '@sistent/react';
 
 const StyledBadge = styled(Badge)(({ theme, color }) => ({
   '& .MuiBadge-badge': {
-    backgroundColor: color || '#44b700',
-    color: color || '#44b700',
+    backgroundColor: color || theme.palette.success.main,
+    color: color || theme.palette.success.main,
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     '&::after': {
       position: 'absolute',
@@ -39,7 +40,9 @@ const Root = styled('div')(({ theme }) => ({
   },
 }));
 
-export default function BadgeAvatars({ children, color }) {
+function BadgeAvatars({ children, color }) {
+  const { theme } = useSistent();
+
   return (
     <Root>
       <StyledBadge
@@ -50,9 +53,12 @@ export default function BadgeAvatars({ children, color }) {
         }}
         variant="dot"
         color={color}
+        theme={theme}
       >
         {children}
       </StyledBadge>
     </Root>
   );
 }
+
+export default BadgeAvatars;
